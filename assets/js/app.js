@@ -88,7 +88,8 @@
     panel.setAttribute('aria-labelledby', 'tab-s' + i);
     panel.innerHTML = '<div class="season-head"><h3>' + esc(s.company) + '</h3><p class="proj-name">' + esc(s.project) + '</p><p>' + esc(s.summary) + '</p>' +
       '<div class="who-when"><b>' + esc(s.role) + '</b>' + esc(s.years) + '</div></div>' +
-      '<ol class="episodes">' + s.highlights.map(function (e, n) { return '<li class="ep"><span class="n">' + (n + 1) + '</span><div><b>' + esc(e.title) + '</b><p>' + esc(e.text) + '</p></div></li>'; }).join('') + '</ol>';
+      '<ol class="episodes">' + s.highlights.map(function (e, n) { return '<li class="ep"><span class="n">' + (n + 1) + '</span><div><b>' + esc(e.title) + '</b><p>' + esc(e.text) + '</p></div></li>'; }).join('') + '</ol>' +
+      (s.tools ? '<div class="job-tools"><h4>Environment</h4><div class="chips">' + s.tools.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div></div>' : '');
     document.querySelectorAll('.season-tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(+b.dataset.s === i)); });
   }
 

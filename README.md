@@ -1,4 +1,4 @@
-# Sai Teja K · Portfolio
+# Sai Teja K · Portfolio (Cinematic Edition)
 
 **DevOps Engineer · Platform Engineer · SRE · AIOps**
 
@@ -6,7 +6,7 @@
 
 [![Deploy portfolio](https://github.com/KUMBHAM8888/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/KUMBHAM8888/portfolio/actions/workflows/deploy.yml)
 
-My portfolio, with a cinematic red-on-black interface. It opens straight to the main page: name, summary and resume first, then results, experience, projects and skills. Every push to `main` is validated and deployed by a GitHub Actions pipeline, the same way I ship production services.
+My portfolio, with a cinematic red-on-black interface. (My original portfolio is still live at https://kumbham8888.github.io.) It opens straight to the main page: name, summary and resume first, then results, experience, projects and skills. Every push to `main` is validated and deployed by a GitHub Actions pipeline, the same way I ship production services.
 
 ---
 
