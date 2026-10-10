@@ -55,6 +55,10 @@ img{max-width:100%;display:block}
 .billboard .logline{margin:0;font-size:clamp(16px,1.7vw,19px);line-height:1.55;color:#D8D6D0;max-width:56ch}
 .roles{display:flex;flex-wrap:wrap;gap:4px 12px;font:500 14px var(--body);color:var(--ink)}
 .roles span+span::before{content:"•";color:var(--accent);margin-right:12px}
+.roles.spot b{font-weight:inherit;position:relative;color:var(--muted);transition:color .4s}
+.roles.spot b::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.roles.spot .on b{color:var(--ink)}
+.roles.spot .on b::after{transform:scaleX(1)}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 24px 12px 20px;border-radius:6px;border:0;font:700 16px var(--body);text-decoration:none;transition:transform .15s,background .15s}
 .btn svg{width:22px;height:22px;fill:currentColor;flex:none}
@@ -190,6 +194,31 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(4px)}
 /* Toast */
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:#0B0B0B;padding:10px 16px;border-radius:8px;font:600 14px var(--body);z-index:120;transition:.25s;pointer-events:none}
 .toast.on{transform:translate(-50%,0);opacity:1}
+
+/* Spotlight: one item per section highlighted at a time (added by app.js) */
+.sp-item{position:relative;overflow:hidden;transition:border-color .4s,background .4s,transform .4s,box-shadow .4s}
+.sp-item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .6s;z-index:2;pointer-events:none}
+.sp-item.on::after{transform:scaleX(1)}
+.top.sp-item.on,.genre.sp-item.on,.credit.sp-item.on{border-color:color-mix(in srgb,var(--accent) 60%,var(--line))}
+.tops.spot .top .v{color:color-mix(in srgb,var(--accent) 50%,var(--surface));transition:color .4s}
+.tops.spot .top.on .v{color:var(--accent)}
+.cw-card .pb{transition:background .4s,border-color .4s}
+.cw-card.on .pb{background:var(--accent);border-color:var(--accent)}
+.ep.on{background:var(--surface)}
+.ep .n{transition:color .4s}
+.ep.on .n{color:var(--accent)}
+.poster.on{transform:scale(1.03);box-shadow:0 18px 40px #0009}
+.genre h3{transition:color .4s}
+.genre.on h3{color:var(--accent)}
+
+/* Glass: a soft light follows the cursor across cards (mouse/trackpad only) */
+@media (hover:hover) and (pointer:fine){
+  .cw-card,.top,.ep,.poster,.genre,.credit{position:relative;overflow:hidden;--gx:50%;--gy:50%}
+  .cw-card::before,.top::before,.ep::before,.poster::before,.genre::before,.credit::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .35s;
+    background:radial-gradient(260px circle at var(--gx) var(--gy),rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,transparent 70%),linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.22)}
+  .cw-card:hover::before,.top:hover::before,.ep:hover::before,.poster:hover::before,.genre:hover::before,.credit:hover::before{opacity:1}
+}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}

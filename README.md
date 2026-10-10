@@ -13,6 +13,7 @@ My portfolio, with a cinematic red-on-black interface. (My original portfolio is
 ## Contents
 
 - [What's on the site](#whats-on-the-site)
+- [Interactive highlights](#interactive-highlights)
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
 - [How I built it](#how-i-built-it)
@@ -38,6 +39,27 @@ My portfolio, with a cinematic red-on-black interface. (My original portfolio is
 | **Certifications & Education** | AWS Certified Developer – Associate and MS in Computer Science |
 | **Get in touch** | Email (with copy button), LinkedIn, GitHub and the resume PDF |
 
+
+---
+
+## Interactive highlights
+
+Small, purposeful motion that guides the eye without getting in the way. All of it is vanilla CSS and JavaScript, with no libraries.
+
+| Effect | Where | What it does |
+|---|---|---|
+| **Role spotlight** | Banner | All four roles stay visible; every 1.8s one turns white with a red underline, so recruiters see every role at a glance |
+| **Section spotlight** | Every section | One item at a time gets a red bar and a section-specific highlight: red play button (Focus), full-red number (Results), red episode number (Experience), lifted poster (Projects), red title (Skills) |
+| **Glass hover** | Every card | A frosted sheen follows the cursor, with a soft edge and a bright top rim, like light catching glass |
+
+**How it's built to behave**
+
+- **Only what you can see.** The spotlight cycles through items currently on screen, and each section runs only while it's in view (`IntersectionObserver`).
+- **Hover wins.** Pointing at an item highlights it and pauses that section's cycle. Hover is read live with `:hover`, so it never gets stuck.
+- **Stays in sync.** Switching employer tabs in Experience moves the spotlight to the new list automatically.
+- **Mouse only for glass.** The glass effect is limited to `(hover: hover) and (pointer: fine)`, so phones don't get a stuck glow after a tap.
+- **Accessible.** With `prefers-reduced-motion`, both spotlights switch off and the page shows the original static layout. Text and contrast are never reduced, so every number stays readable.
+- **One shared function.** A single `spotlight(container, itemSelector)` in `app.js` powers every section, so adding it to a new section is one line.
 
 ---
 
@@ -117,7 +139,7 @@ Workflow file: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 ├── assets/
 │   ├── css/style.css             # All styles and design tokens
 │   ├── js/data.js                # ALL content (edit this to update the site)
-│   ├── js/app.js                 # Renders rows and project overlays
+│   ├── js/app.js                 # Renders rows, project overlays, spotlight and glass effects
 │   ├── photo.jpg                 # Portrait (banner and link previews)
 │   └── Sai_Teja_K_Resume.pdf     # Public resume (phone number removed)
 ├── .github/workflows/deploy.yml  # CI/CD: validate, then deploy to GitHub Pages

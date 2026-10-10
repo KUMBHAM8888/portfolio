@@ -140,6 +140,74 @@
     lastY = y;
   }, { passive: true });
 
+  /* ---------- Hero roles: spotlight moves across the role list (static if motion is reduced) ---------- */
+  function spotlightRoles() {
+    var el = $('.roles');
+    if (!el || reduce) return;
+    var items = el.querySelectorAll('span');
+    if (items.length < 2) return;
+    [].forEach.call(items, function (s) { s.innerHTML = '<b>' + esc(s.textContent) + '</b>'; });
+    el.classList.add('spot');
+    var n = 0;
+    function next() {
+      [].forEach.call(items, function (s, i) { s.classList.toggle('on', i === n); });
+      n = (n + 1) % items.length;
+    }
+    next();
+    setInterval(next, 1800);
+  }
+
+  /* ---------- Spotlight: highlights one on-screen item per section at a time; hover takes it ---------- */
+  function spotlight(box, sel) {
+    if (!box || reduce) return;
+    var cur = null, timer = null;
+    function items() { return [].slice.call(box.querySelectorAll(sel)); }
+    function set(c) { cur = c; items().forEach(function (x) { x.classList.add('sp-item'); x.classList.toggle('on', x === c); }); }
+    function onScreen() {
+      return items().filter(function (c) {
+        var b = c.getBoundingClientRect(), rail = c.closest('.rail');
+        var r = rail ? rail.getBoundingClientRect() : { left: 0, right: window.innerWidth };
+        var w = Math.min(b.right, r.right, window.innerWidth) - Math.max(b.left, r.left, 0);
+        var h = Math.min(b.bottom, window.innerHeight) - Math.max(b.top, 0);
+        return w >= b.width * 0.6 && h >= Math.min(b.height, window.innerHeight) * 0.6;
+      });
+    }
+    function next() {
+      var h = box.querySelector(sel + ':hover');
+      if (h) { if (h !== cur) set(h); return; }
+      var v = onScreen();
+      if (v.length) set(v[(v.indexOf(cur) + 1) % v.length]);
+    }
+    box.classList.add('spot');
+    items().forEach(function (x) { x.classList.add('sp-item'); });
+    box.addEventListener('pointerover', function (e) {
+      var c = e.target.closest(sel);
+      if (c && box.contains(c)) set(c);
+    });
+    new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { if (!timer) { next(); timer = setInterval(next, 2000); } }
+      else { clearInterval(timer); timer = null; }
+    }, { threshold: 0.15 }).observe(box);
+  }
+
+  /* ---------- Glass: feed the cursor position to the hovered card ---------- */
+  var GLASS = '.cw-card,.top,.ep,.poster,.genre,.credit';
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    var c = e.target.closest && e.target.closest(GLASS);
+    if (!c) return;
+    var b = c.getBoundingClientRect();
+    c.style.setProperty('--gx', (e.clientX - b.left) + 'px');
+    c.style.setProperty('--gy', (e.clientY - b.top) + 'px');
+  }, { passive: true });
+
   /* ---------- Boot ---------- */
   renderRows();
+  setTimeout(spotlightRoles, 1200);
+  spotlight($('#row-focus .cw'), '.cw-card');
+  spotlight($('#row-results .tops'), '.top');
+  spotlight($('#job-panel'), '.ep');
+  spotlight($('#row-projects .posters'), '.poster');
+  spotlight($('#row-skills .genres'), '.genre');
+  spotlight($('#row-credentials .credits'), '.credit');
 })();
