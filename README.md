@@ -2,9 +2,9 @@
 
 **DevOps Engineer · Platform Engineer · SRE · AIOps**
 
-🔗 **Live site:** https://kumbham8888.github.io
+🔗 **Live site:** https://kumbham8888.github.io/portfolio
 
-[![Deploy portfolio](https://github.com/KUMBHAM8888/KUMBHAM8888.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/KUMBHAM8888/KUMBHAM8888.github.io/actions/workflows/deploy.yml)
+[![Deploy portfolio](https://github.com/KUMBHAM8888/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/KUMBHAM8888/portfolio/actions/workflows/deploy.yml)
 
 My portfolio, with a cinematic red-on-black interface. It opens straight to the main page: name, summary and resume first, then results, experience, projects and skills. Every push to `main` is validated and deployed by a GitHub Actions pipeline, the same way I ship production services.
 
@@ -66,7 +66,7 @@ flowchart LR
       D -->|pass| E[deploy job<br/>upload-pages-artifact · deploy-pages]
     end
     E --> F[GitHub Pages CDN<br/>HTTPS]
-    F --> G[Recruiters &amp; visitors<br/>kumbham8888.github.io]
+    F --> G[Recruiters &amp; visitors<br/>kumbham8888.github.io/portfolio]
 ```
 
 If any check fails, the deploy job never runs, so a broken page can't go live. The previous version stays up.
@@ -149,8 +149,8 @@ The banner text is in `index.html`. To change the photo or resume, replace the f
 ## Run it locally
 
 ```bash
-git clone git@github.com:KUMBHAM8888/KUMBHAM8888.github.io.git
-cd KUMBHAM8888.github.io
+git clone git@github.com:KUMBHAM8888/portfolio.git
+cd portfolio
 python -m http.server 8000        # then open http://localhost:8000
 
 # The same checks CI runs
