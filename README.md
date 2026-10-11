@@ -167,6 +167,8 @@ Edit **`assets/js/data.js`**, commit and push. The pipeline does the rest.
 
 The banner text and the **About** section are in `index.html`, kept as plain HTML on purpose (see How I built it, step 11). To change the photo or resume, replace the files in `assets/` and keep the same names.
 
+**After changing CSS or JavaScript**, bump the `?v=` number on the three `<link>`/`<script>` tags in `index.html` (for example `?v=20261010` to today's date). Browsers cache these files, and a new version number makes every visitor download the fresh copy instead of mixing a new page with old styles.
+
 ---
 
 ## Run it locally
