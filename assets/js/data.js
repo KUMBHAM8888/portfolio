@@ -35,47 +35,33 @@ window.SITE = {
     { value: '18%', label: 'lower AWS costs', where: 'Right-sizing + S3 lifecycle · Verizon' },
   ],
 
-  /* Experience, oldest first. The newest role opens by default. */
+  /* Experience, oldest first. The site lists every role, newest first, like LinkedIn. */
   experience: [
     {
       company: 'Verizon', role: 'Cloud Engineer', years: 'Jan 2021 – Jun 2022', short: '2021 – 2022',
       project: 'Network Analytics Cloud Migration',
-      summary: 'Moved internal network-analytics and reporting applications from data-center VMs to AWS.',
-      highlights: [
-        { title: 'Cost Optimization', text: 'Right-sized EC2 instances and added S3 lifecycle policies, reducing compute and storage costs by 18%.' },
-        { title: 'Server Build Automation', text: 'Wrote Ansible playbooks and shell scripts to standardize server builds, cutting new server setup from a full day to under 2 hours.' },
-        { title: 'First CI Pipelines', text: 'Containerized legacy Java applications with Docker and set up Jenkins builds with Maven and Nexus, the team\u2019s first working CI pipelines.' },
-        { title: 'Monitoring & Recovery', text: 'Added CloudWatch alarms with SNS notifications, cutting incident response time by 30%. Handled Linux patching, backups and disaster-recovery validation.' },
+      description: [
+        'Moved internal network-analytics and reporting applications from data-center VMs to AWS. I right-sized EC2 instances and added S3 lifecycle policies to cut compute and storage costs by 18%, and standardized server builds with Ansible playbooks and shell scripts, taking new server setup from a full day to under 2 hours.',
+        'I containerized legacy Java applications with Docker and set up Jenkins builds with Maven and Nexus, the team\u2019s first working CI pipelines. I also added CloudWatch alarms with SNS notifications, cutting incident response time by 30%, and handled Linux patching, backups and disaster-recovery validation.',
       ],
       tools: ['AWS EC2 · VPC · IAM', 'S3 · RDS', 'CloudWatch · SNS', 'Ansible', 'Docker', 'Jenkins', 'Maven', 'Nexus', 'Bash', 'Linux'],
     },
     {
       company: 'JPMorgan Chase', role: 'DevOps Engineer', years: 'Mar 2023 – Jul 2024', short: '2023 – 2024',
       project: 'Payments Platform CI/CD Standardization',
-      summary: 'Consolidated build and release for card-payments and treasury microservices onto Azure DevOps, AKS and OpenShift.',
-      highlights: [
-        { title: 'Shared Pipeline Templates', text: 'Wrote the shared multi-stage Azure DevOps YAML templates that 40+ Java and .NET payments services adopted, and led the move off legacy Jenkins for 5 application teams. Every team got the same build, scan and deploy stages, and deployment failures fell 25%.' },
-        { title: 'Security Gates as Audit Evidence', text: 'Made SonarQube, Checkmarx and BlackDuck scans a required stage in every pipeline, failing builds on critical vulnerabilities or license issues. The scan results became the evidence used in SOX and PCI-DSS audits.' },
-        { title: 'Vulnerability Remediation', text: 'Worked with InfoSec to remediate 200+ infrastructure and container vulnerabilities and supported quarterly security assessments.' },
-        { title: 'Azure Infrastructure as Code', text: 'Provisioned AKS, Virtual Networks, Key Vault, load balancers and Azure Monitor with Terraform, cutting environment setup time by 40%. Packaged services as Helm charts for AKS and OpenShift.' },
-        { title: 'Traceable Releases', text: 'Set GitFlow branching, pull request policies and release tagging across 6 teams, so every production release could be traced back to reviewed, tagged code.' },
-        { title: 'Faster Triage', text: 'Added latency and error-rate alerts in Prometheus, Grafana, Splunk and Application Insights to speed up incident triage, and automated routine admin with PowerShell and Bash.' },
+      description: [
+        'Standardized build and release for card-payments and treasury microservices on Azure DevOps, AKS and OpenShift. I wrote the shared multi-stage Azure DevOps YAML templates adopted by 40+ Java and .NET services and led the move off legacy Jenkins for 5 application teams, so every team got the same build, scan and deploy stages and deployment failures fell 25%.',
+        'I made SonarQube, Checkmarx and BlackDuck scans a required stage in every pipeline, and the results became the evidence used in SOX and PCI-DSS audits. With InfoSec, I remediated 200+ infrastructure and container vulnerabilities. I also provisioned AKS, networking, Key Vault and Azure Monitor with Terraform, cutting environment setup time by 40%, set GitFlow branching and release tagging across 6 teams, and added latency and error-rate alerting in Prometheus, Grafana, Splunk and Application Insights.',
       ],
       tools: ['Azure DevOps', 'AKS', 'OpenShift', 'Terraform', 'Helm', 'SonarQube', 'Checkmarx', 'BlackDuck', 'Splunk', 'Prometheus', 'Grafana', 'Application Insights', 'Java', '.NET', 'PowerShell'],
     },
     {
-      company: 'NextEra Energy', role: 'DevOps Engineer', years: 'Aug 2024 – Present', short: '2024 – Now',
+      company: 'NextEra Energy', role: 'DevOps Engineer', years: 'Aug 2024 – Present', short: '2024 – Now', location: 'Juno Beach, FL',
       project: 'Grid Operations Platform Modernization',
-      summary: 'Moving outage-management and meter-data microservices from on-prem RHEL servers to AWS EKS and Red Hat OpenShift.',
-      highlights: [
-        { title: 'Scaling for Storms', text: 'The on-prem servers behind outage management could not scale during storms and outage spikes, when load is highest. Designed and proposed the move to EKS and OpenShift, then migrated 25+ microservices with Helm and Tekton, using HPA and Auto Scaling so capacity grows with demand. No customer-facing downtime during cutover.' },
-        { title: 'Zero-Downtime Releases', text: 'Replaced the manual, after-hours release window (about 4 hours, with downtime) with Harness canary and blue-green deployments that roll back automatically on failed health checks. Releases now go out with zero downtime in under an hour.' },
-        { title: 'Terraform Layout', text: 'Proposed and built reusable Terraform modules for VPC, EKS, IAM and RDS, with S3 remote state and DynamoDB locking. Dev, QA and prod are built from the same code, and manual provisioning effort is down about 60%.' },
-        { title: 'Secrets in Vault', text: 'Moved application credentials out of plaintext config files into HashiCorp Vault with dynamic credentials and automated SSL/TLS renewal, closing the related NERC CIP audit findings.' },
-        { title: 'Pipelines That Block Bad Deploys', text: 'Built Jenkins and GitHub Actions pipelines that block deploys on SonarQube quality gates, Snyk dependency scans and Trivy image scans. Failed deployments fell 40%.' },
-        { title: 'SLOs and Fewer Incidents', text: 'Set up Prometheus, Grafana and CloudWatch with SLO-based alerts routed to PagerDuty, and lead post-incident RCA reviews. Together with the autoscaling and release changes, P1/P2 incidents dropped about 35%.' },
-        { title: 'Cluster Operations & Automation', text: 'Run the Kubernetes and OpenShift clusters day to day (namespaces, quotas, HPA, rolling updates, troubleshooting). Ansible roles and Python/Bash scripts for patching and health checks save about 15 engineering hours a week.' },
-        { title: 'Mentoring & Change Management', text: 'Mentor 3 junior engineers on Terraform, Kubernetes and pipeline standards, and take production changes through ServiceNow CAB with development and QA.' },
+      description: [
+        'Leading the move of outage-management and meter-data microservices from on-prem RHEL servers, which could not scale during storms, to AWS EKS and Red Hat OpenShift. I designed and proposed the migration, built reusable Terraform modules for VPC, EKS, IAM and RDS (manual provisioning down about 60%), and migrated 25+ microservices with Helm and Tekton with no customer-facing downtime.',
+        'I replaced the 4-hour, after-hours release window with Harness canary and blue-green deployments that roll back automatically, so releases now ship with zero downtime in under an hour. I moved credentials into HashiCorp Vault to close NERC CIP audit findings, added SonarQube, Snyk and Trivy gates that cut failed deployments by 40%, and set up SLO-based alerting with Prometheus, Grafana and PagerDuty that helped reduce P1/P2 incidents by about 35%.',
+        'Day to day, I run the Kubernetes and OpenShift clusters, automate RHEL operations with Ansible, Python and Bash (about 15 engineering hours saved a week), mentor 3 junior engineers, and take production changes through ServiceNow CAB.',
       ],
       tools: ['AWS EKS · VPC · IAM · RDS', 'S3 · DynamoDB', 'OpenShift', 'Terraform', 'Harness', 'Jenkins', 'GitHub Actions', 'Tekton', 'Helm', 'Vault', 'SonarQube', 'Snyk', 'Trivy', 'Prometheus', 'Grafana', 'PagerDuty', 'Ansible', 'Python', 'Bash'],
     },

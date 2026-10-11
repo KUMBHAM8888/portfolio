@@ -31,9 +31,10 @@ My portfolio, with a cinematic red-on-black interface. (My original portfolio is
 | Section | What it shows |
 |---|---|
 | **Banner** | My name, summary, roles, and **Resume** and **Contact** buttons over a cinematic portrait |
+| **About** | Who I am in four short paragraphs, an "At a glance" fact card (role, experience, industries, cloud, compliance, certification, education, location) and core skills |
 | **Current Focus** | Current role and work in progress |
 | **Key Results** | Measured outcomes: 60% less provisioning, 40% fewer failed deployments, release windows from 4h to under 1h, and more |
-| **Experience** | Verizon, JPMorgan Chase and NextEra Energy as tabs. Each shows the project, summary and numbered highlights |
+| **Experience** | Every role on one LinkedIn-style timeline, newest first: NextEra Energy, JPMorgan Chase, Verizon. Each shows role, dates with calculated duration, location, project, a short write-up in plain paragraphs, and tools |
 | **Projects** | Project cards with generated cover art. Select one for the details, features, tech stack and architecture flow |
 | **Skills** | CI/CD, containers, IaC, cloud, DevSecOps, observability, scripting and AI |
 | **Certifications & Education** | AWS Certified Developer – Associate and MS in Computer Science |
@@ -49,14 +50,13 @@ Small, purposeful motion that guides the eye without getting in the way. All of 
 | Effect | Where | What it does |
 |---|---|---|
 | **Role spotlight** | Banner | All four roles stay visible; every 1.8s one turns white with a red underline, so recruiters see every role at a glance |
-| **Section spotlight** | Every section | One item at a time gets a red bar and a section-specific highlight: red play button (Focus), full-red number (Results), red episode number (Experience), lifted poster (Projects), red title (Skills) |
+| **Section spotlight** | Every section, including About | One item at a time gets a red bar and a section-specific highlight: red play button (Focus), full-red number (Results), red company name (Experience), lifted poster (Projects), red title (Skills) |
 | **Glass hover** | Every card | A frosted sheen follows the cursor, with a soft edge and a bright top rim, like light catching glass |
 
 **How it's built to behave**
 
 - **Only what you can see.** The spotlight cycles through items currently on screen, and each section runs only while it's in view (`IntersectionObserver`).
 - **Hover wins.** Pointing at an item highlights it and pauses that section's cycle. Hover is read live with `:hover`, so it never gets stuck.
-- **Stays in sync.** Switching employer tabs in Experience moves the spotlight to the new list automatically.
 - **Mouse only for glass.** The glass effect is limited to `(hover: hover) and (pointer: fine)`, so phones don't get a stuck glow after a tap.
 - **Accessible.** With `prefers-reduced-motion`, both spotlights switch off and the page shows the original static layout. Text and contrast are never reduced, so every number stays readable.
 - **One shared function.** A single `spotlight(container, itemSelector)` in `app.js` powers every section, so adding it to a new section is one line.
@@ -110,10 +110,11 @@ flowchart TB
 4. **Generated cover art.** Project covers are SVG drawn in code from a two-color palette and a motif (rings, pulse, stack), so there are no image files to manage.
 5. **Design tokens.** Colors, fonts and spacing are CSS custom properties in `:root`.
 6. **Mobile-first rows.** Rows scroll sideways with snap points on touch devices, and arrow buttons appear only on devices with a mouse.
-7. **Accessibility.** Native `<dialog>` overlays (Esc closes, focus is managed), tab roles for the experience switcher, visible focus states, and `prefers-reduced-motion` turns off all animation.
+7. **Accessibility.** Native `<dialog>` overlays (Esc closes, focus is managed), semantic `<article>` entries for each role in Experience, visible focus states, and `prefers-reduced-motion` turns off all animation.
 8. **Privacy.** The public resume PDF leaves out my phone number.
 9. **Link previews.** Open Graph tags so the URL shows my photo and title on LinkedIn.
 10. **Shipped through CI/CD.** GitHub Actions validates and deploys every push to `main`.
+11. **Readable by search engines and resume parsers.** The About section is plain HTML in `index.html`, not rendered by JavaScript, so tools that don't run scripts can still read it. A schema.org `Person` block in `<head>` gives search engines my title, skills, certification and profiles.
 
 ---
 
@@ -135,7 +136,7 @@ Workflow file: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 
 ```
 .
-├── index.html                    # Page shell: nav, banner, contact section, dialog
+├── index.html                    # Page shell: nav, banner, About, contact section, dialog, schema.org data
 ├── assets/
 │   ├── css/style.css             # All styles and design tokens
 │   ├── js/data.js                # ALL content (edit this to update the site)
@@ -159,12 +160,12 @@ Edit **`assets/js/data.js`**, commit and push. The pipeline does the rest.
 | Order of the sections | `order` |
 | Current Focus cards | `focus` |
 | Headline numbers | `results` |
-| Jobs and highlights | `experience` |
+| Jobs and their write-ups | `experience` (each role's `description` is a list of paragraphs) |
 | Projects (cards and detail view) | `projects` (add an object and it appears automatically) |
 | Skills | `skills` |
 | Certifications and education | `certifications`, `education` |
 
-The banner text is in `index.html`. To change the photo or resume, replace the files in `assets/` and keep the same names.
+The banner text and the **About** section are in `index.html`, kept as plain HTML on purpose (see How I built it, step 11). To change the photo or resume, replace the files in `assets/` and keep the same names.
 
 ---
 

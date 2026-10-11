@@ -81,6 +81,22 @@ main{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(36px,5vw,60px);p
 .row-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-inline:var(--gutter)}
 .row h2{margin:0;font:800 clamp(24px,3vw,32px)/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
 .row h2 small{display:block;font:500 13px var(--body);color:var(--muted);text-transform:none;letter-spacing:0;margin-top:4px}
+/* About (static HTML so search engines and resume parsers can read it) */
+.about{margin-bottom:clamp(36px,5vw,60px)}
+.about-body{padding-inline:var(--gutter);display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:clamp(20px,4vw,48px);align-items:start;max-width:1240px}
+.about-text p{margin:0 0 14px;color:#D8D6D0;font-size:clamp(15.5px,1.4vw,17px);line-height:1.7;max-width:70ch}
+.about-text strong{color:var(--ink);font-weight:600}
+.about-text .core{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px}
+.about-text .core-label{flex-basis:100%;font:600 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.about-text .core span:not(.core-label){font:500 12.5px var(--mono);padding:4px 9px;border-radius:5px;background:var(--raise);color:#D2D0CA}
+.facts{margin:0;display:grid;gap:8px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 16px;display:grid;grid-template-columns:108px minmax(0,1fr);gap:12px;align-items:baseline}
+.fact dt{font:600 11.5px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.fact dd{margin:0;font:500 15px/1.4 var(--body);color:var(--ink)}
+.fact.sp-item.on{border-color:color-mix(in srgb,var(--accent) 60%,var(--line))}
+.fact dt{transition:color .4s}
+.fact.on dt{color:var(--accent)}
+@media (max-width:860px){.about-body{grid-template-columns:minmax(0,1fr)}}
 .arrows{display:flex;gap:8px}
 .arrows button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
 .arrows button:hover{border-color:var(--muted)}
@@ -104,20 +120,32 @@ main{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(36px,5vw,60px);p
 .cw-card .txt em{font:500 11.5px var(--mono);font-style:normal;color:var(--ok);margin-top:4px}
 
 /* Seasons */
-.seasons{padding-inline:var(--gutter);display:grid;gap:20px}
-.season-tabs{display:flex;gap:8px;flex-wrap:wrap}
-.season-tabs button{background:var(--surface);border:1px solid var(--line);padding:9px 16px;border-radius:6px;font:600 14px var(--body);color:var(--muted)}
-.season-tabs button[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
-.season-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 24px;align-items:end;max-width:1100px}
-.season-head h3{margin:0;font:800 clamp(30px,4vw,44px)/1 var(--display);text-transform:uppercase}
-.season-head .proj-name{color:var(--accent);font:600 15px var(--mono);margin:0}
-.season-head p{margin:0;color:var(--muted);max-width:62ch}
-.season-head .who-when{font:500 13px var(--mono);color:var(--muted);text-align:right;grid-row:1/3;grid-column:2}
-.season-head .who-when b{display:block;color:var(--ink);font:600 16px var(--body)}
-@media (max-width:640px){.season-head{grid-template-columns:minmax(0,1fr)}.season-head .who-when{grid-row:auto;grid-column:auto;text-align:left}}
+/* Experience timeline (every role visible, newest first) */
+.timeline{padding-inline:var(--gutter);display:grid;max-width:1180px}
+.job{display:grid;grid-template-columns:52px minmax(0,1fr);gap:0 22px;position:relative;padding-bottom:40px;scroll-margin-top:84px}
+.job:not(:last-child)::before{content:"";position:absolute;left:25px;top:62px;bottom:6px;width:2px;background:var(--line)}
+.job-mark{width:52px;height:52px;border-radius:10px;background:var(--raise);border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;font:900 20px/1 var(--display);letter-spacing:.02em}
+.job.current .job-mark{background:var(--accent);border-color:var(--accent);color:#fff}
+.job-main{min-width:0}
+.job-head{display:grid;gap:4px;margin-bottom:16px;max-width:1100px}
+.job-head h3{margin:0;font:800 clamp(28px,3.6vw,40px)/1 var(--display);text-transform:uppercase}
+.job-role{margin:2px 0 0;font:600 17px var(--body);color:var(--ink);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.job-role .now{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 50%,transparent);padding:2px 8px;border-radius:999px}
+.job-when{margin:0;font:500 13px var(--mono);color:var(--muted)}
+.job-head .proj-name{color:var(--accent);font:600 14.5px var(--mono);margin:10px 0 0}
+.job-desc{max-width:78ch}
+.job-desc p{margin:0 0 12px;color:#D8D6D0;font-size:clamp(15px,1.3vw,16.5px);line-height:1.7}
+.job-head h3,.job-mark{transition:color .4s,background .4s,border-color .4s}
+.job.sp-item{overflow:visible}
+.job.sp-item::after{display:none}
+.job.on h3{color:var(--accent)}
+.job.on:not(.current) .job-mark{border-color:var(--accent);color:var(--accent)}
+@media (max-width:640px){.job{grid-template-columns:40px minmax(0,1fr);gap:0 14px}.job-mark{width:40px;height:40px;font-size:16px;border-radius:8px}.job:not(:last-child)::before{left:19px;top:50px}}
 .episodes{list-style:none;margin:0;padding:0;display:grid;max-width:1100px;border-top:1px solid var(--line)}
 .ep{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;padding:18px 8px;border-bottom:1px solid var(--line);align-items:start;border-radius:6px;transition:background .2s}
 .ep:hover{background:var(--surface)}
+.ep[hidden]{display:none}
+@media (max-width:640px){.ep{grid-template-columns:26px minmax(0,1fr);gap:10px;padding:16px 6px}.ep .n{font-size:24px}}
 .ep .n{font:800 30px/1 var(--display);color:var(--dim);text-align:center}
 .ep b{font:600 16px var(--body);display:block}
 .ep p{margin:4px 0 0;color:var(--muted);font-size:15px;max-width:80ch}
@@ -213,11 +241,11 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(4px)}
 
 /* Glass: a soft light follows the cursor across cards (mouse/trackpad only) */
 @media (hover:hover) and (pointer:fine){
-  .cw-card,.top,.ep,.poster,.genre,.credit{position:relative;overflow:hidden;--gx:50%;--gy:50%}
-  .cw-card::before,.top::before,.ep::before,.poster::before,.genre::before,.credit::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .35s;
+  .cw-card,.top,.ep,.poster,.genre,.credit,.fact{position:relative;overflow:hidden;--gx:50%;--gy:50%}
+  .cw-card::before,.top::before,.ep::before,.poster::before,.genre::before,.credit::before,.fact::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .35s;
     background:radial-gradient(260px circle at var(--gx) var(--gy),rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,transparent 70%),linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.22)}
-  .cw-card:hover::before,.top:hover::before,.ep:hover::before,.poster:hover::before,.genre:hover::before,.credit:hover::before{opacity:1}
+  .cw-card:hover::before,.top:hover::before,.ep:hover::before,.poster:hover::before,.genre:hover::before,.credit:hover::before,.fact:hover::before{opacity:1}
 }
 
 @media (prefers-reduced-motion:reduce){

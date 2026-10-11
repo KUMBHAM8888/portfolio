@@ -49,9 +49,7 @@
     },
     experience: function () {
       return rowHead('experience', 'Experience', 'Five years across telecom, financial services and energy', false) +
-        '<div class="seasons"><div class="season-tabs" role="tablist" aria-label="Employers">' +
-        S.experience.map(function (s, i) { return '<button type="button" role="tab" id="tab-s' + i + '" aria-controls="job-panel" aria-selected="' + (i === S.experience.length - 1) + '" data-s="' + i + '">' + esc(s.company) + ' · ' + esc(s.short) + '</button>'; }).join('') +
-        '</div><div id="job-panel" role="tabpanel"></div></div>';
+        '<div class="timeline">' + S.experience.map(function (s, i) { return jobHTML(s, i); }).reverse().join('') + '</div>';
     },
     projects: function () {
       return rowHead('projects', 'Projects', 'Select a project for the architecture and details', true) +
@@ -80,22 +78,38 @@
     },
   };
 
-  var currentJob = S.experience.length - 1;
-  function renderJob(i) {
-    currentJob = i;
-    var s = S.experience[i], panel = $('#job-panel');
-    if (!panel) return;
-    panel.setAttribute('aria-labelledby', 'tab-s' + i);
-    panel.innerHTML = '<div class="season-head"><h3>' + esc(s.company) + '</h3><p class="proj-name">' + esc(s.project) + '</p><p>' + esc(s.summary) + '</p>' +
-      '<div class="who-when"><b>' + esc(s.role) + '</b>' + esc(s.years) + '</div></div>' +
-      '<ol class="episodes">' + s.highlights.map(function (e, n) { return '<li class="ep"><span class="n">' + (n + 1) + '</span><div><b>' + esc(e.title) + '</b><p>' + esc(e.text) + '</p></div></li>'; }).join('') + '</ol>' +
-      (s.tools ? '<div class="job-tools"><h4>Environment</h4><div class="chips">' + s.tools.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div></div>' : '');
-    document.querySelectorAll('.season-tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(+b.dataset.s === i)); });
+  /* ---------- Experience: every role on one timeline, LinkedIn style ---------- */
+  var MONTHS = 'jan feb mar apr may jun jul aug sep oct nov dec'.split(' ');
+  function ym(t) {
+    if (/present/i.test(t)) { var d = new Date(); return d.getFullYear() * 12 + d.getMonth(); }
+    var m = t.trim().toLowerCase().match(/^([a-z]{3})[a-z]*\s+(\d{4})$/);
+    return m ? +m[2] * 12 + MONTHS.indexOf(m[1]) : NaN;
+  }
+  function duration(years) {
+    var p = years.split(/\s+[\u2013-]\s+/), n = ym(p[1]) - ym(p[0]) + 1;
+    if (!(n > 0)) return '';
+    var y = Math.floor(n / 12), mo = n % 12, out = [];
+    if (y) out.push(y + (y === 1 ? ' yr' : ' yrs'));
+    if (mo) out.push(mo + (mo === 1 ? ' mo' : ' mos'));
+    return out.join(' ');
+  }
+  function initials(name) { return name.split(/\s+/).map(function (w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase(); }
+  function jobHTML(s, i) {
+    var current = /present/i.test(s.years), dur = duration(s.years);
+    return '<article class="job' + (current ? ' current' : '') + '" id="job-' + i + '" aria-labelledby="job-h-' + i + '">' +
+      '<div class="job-mark" aria-hidden="true">' + esc(initials(s.company)) + '</div>' +
+      '<div class="job-main"><header class="job-head">' +
+        '<h3 id="job-h-' + i + '">' + esc(s.company) + '</h3>' +
+        '<p class="job-role">' + esc(s.role) + (current ? ' <span class="now">Current</span>' : '') + '</p>' +
+        '<p class="job-when">' + esc(s.years) + (dur ? ' · ' + esc(dur) : '') + (s.location ? ' · ' + esc(s.location) : '') + '</p>' +
+        '<p class="proj-name">' + esc(s.project) + '</p></header>' +
+      '<div class="job-desc">' + s.description.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
+      (s.tools ? '<div class="job-tools"><h4>Environment</h4><div class="chips">' + s.tools.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div></div>' : '') +
+      '</div></article>';
   }
 
   function renderRows() {
     $('#rows').innerHTML = S.order.map(function (k) { return '<section class="row" id="row-' + k + '" aria-labelledby="h-' + k + '">' + builders[k]() + '</section>'; }).join('');
-    renderJob(currentJob);
   }
 
   /* ---------- Project overlay ---------- */
@@ -117,10 +131,9 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest('.arrows button');
     if (a) { var rail = a.closest('.row').querySelector('.rail'); rail.scrollBy({ left: +a.dataset.dir * rail.clientWidth * 0.85, behavior: reduce ? 'auto' : 'smooth' }); return; }
-    var t = e.target.closest('.season-tabs button'); if (t) { renderJob(+t.dataset.s); return; }
     var p = e.target.closest('[data-project]'); if (p) { openProject(p.dataset.project); return; }
     var c = e.target.closest('.cw-card');
-    if (c && !c.dataset.project) { if (c.dataset.job != null) renderJob(+c.dataset.job); var row = $('#row-' + c.dataset.target); if (row) row.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+    if (c && !c.dataset.project) { var row = (c.dataset.job != null && $('#job-' + c.dataset.job)) || $('#row-' + c.dataset.target); if (row) row.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
   });
 
   var toastEl = $('#toast'), tt;
@@ -166,6 +179,7 @@
     function onScreen() {
       return items().filter(function (c) {
         var b = c.getBoundingClientRect(), rail = c.closest('.rail');
+        if (!b.width) return false;
         var r = rail ? rail.getBoundingClientRect() : { left: 0, right: window.innerWidth };
         var w = Math.min(b.right, r.right, window.innerWidth) - Math.max(b.left, r.left, 0);
         var h = Math.min(b.bottom, window.innerHeight) - Math.max(b.top, 0);
@@ -191,7 +205,7 @@
   }
 
   /* ---------- Glass: feed the cursor position to the hovered card ---------- */
-  var GLASS = '.cw-card,.top,.ep,.poster,.genre,.credit';
+  var GLASS = '.cw-card,.top,.ep,.poster,.genre,.credit,.fact';
   document.addEventListener('pointermove', function (e) {
     if (e.pointerType !== 'mouse') return;
     var c = e.target.closest && e.target.closest(GLASS);
@@ -204,9 +218,10 @@
   /* ---------- Boot ---------- */
   renderRows();
   setTimeout(spotlightRoles, 1200);
+  spotlight($('#about .facts'), '.fact');
   spotlight($('#row-focus .cw'), '.cw-card');
   spotlight($('#row-results .tops'), '.top');
-  spotlight($('#job-panel'), '.ep');
+  spotlight($('#row-experience .timeline'), '.job');
   spotlight($('#row-projects .posters'), '.poster');
   spotlight($('#row-skills .genres'), '.genre');
   spotlight($('#row-credentials .credits'), '.credit');
