@@ -255,3 +255,12 @@ dialog::backdrop{background:#000c;backdrop-filter:blur(4px)}
 
 .job-tools{max-width:1100px;margin-top:20px}
 .job-tools h4{margin:0 0 10px;font:600 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* Several roles at one company, LinkedIn style */
+.positions{display:grid;gap:28px;margin-top:4px}
+.pos{position:relative;padding-left:22px;border-left:2px solid var(--line)}
+.pos::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.job.current .pos:first-child::before{border-color:var(--accent);background:var(--accent)}
+.pos .job-role{margin:0}
+.pos .proj-name{color:var(--accent);font:600 14.5px var(--mono);margin:6px 0 12px}
+@media (max-width:640px){.pos{padding-left:16px}}

@@ -199,7 +199,7 @@ node --check assets/js/app.js
 
 ## Contact
 
-- **Email:** saitejagoudk01@gmail.com
+- **Email:** tejakumbham@gmail.com
 - **LinkedIn:** [in/saitejagoudk](https://www.linkedin.com/in/saitejagoudk/)
 - **GitHub:** [KUMBHAM8888](https://github.com/KUMBHAM8888)
 

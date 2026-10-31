@@ -5,7 +5,7 @@
 window.SITE = {
   profile: {
     name: 'Sai Teja K',
-    email: 'saitejagoudk01@gmail.com',
+    email: 'tejakumbham@gmail.com',
     linkedin: 'https://www.linkedin.com/in/saitejagoudk/',
     github: 'https://github.com/KUMBHAM8888',
     resume: 'assets/Sai_Teja_K_Resume.pdf',
@@ -17,7 +17,7 @@ window.SITE = {
 
   /* Current Focus: what's in progress right now. */
   focus: [
-    { title: 'DevOps Engineer · NextEra Energy', sub: 'Moving grid services to EKS and OpenShift', tag: 'Current role', target: 'experience', job: 2, palette: ['#3A0508', '#E50914'], motif: 'rings' },
+    { title: 'Site Reliability Analyst · NextEra Energy', sub: 'On-call and reliability for grid services', tag: 'Current role', target: 'experience', job: 2, palette: ['#3A0508', '#E50914'], motif: 'rings' },
     { title: 'AI-Assisted Incident Triage', sub: 'Python MCP server for on-call engineers', tag: 'In progress', target: 'projects', project: 'mcp-triage' },
     { title: 'This portfolio website', sub: 'Next: Terraform on S3 + CloudFront', tag: 'Live · v2 planned', target: 'projects', project: 'this-site' },
   ],
@@ -35,35 +35,52 @@ window.SITE = {
     { value: '18%', label: 'lower AWS costs', where: 'Right-sizing + S3 lifecycle · Verizon' },
   ],
 
-  /* Experience, oldest first. The site lists every role, newest first, like LinkedIn. */
+  /* Experience, oldest first. The site lists every role, newest first, like LinkedIn.
+     A company with more than one role uses `positions` (newest first) instead of role/description/tools. */
   experience: [
     {
       company: 'Verizon', role: 'Cloud Engineer', years: 'Jan 2021 – Jun 2022', short: '2021 – 2022',
       project: 'Network Analytics Cloud Migration',
       description: [
-        'Moved internal network-analytics and reporting applications from data-center VMs to AWS. I right-sized EC2 instances and added S3 lifecycle policies to cut compute and storage costs by 18%, and standardized server builds with Ansible playbooks and shell scripts, taking new server setup from a full day to under 2 hours.',
-        'I containerized legacy Java applications with Docker and set up Jenkins builds with Maven and Nexus, the team\u2019s first working CI pipelines. I also added CloudWatch alarms with SNS notifications, cutting incident response time by 30%, and handled Linux patching, backups and disaster-recovery validation.',
+        'Provisioned EC2, VPC, IAM, S3 and RDS to move network-analytics reporting apps off data-center VMs to AWS. I right-sized EC2 from CloudWatch metrics and moved old reports to Glacier with S3 lifecycle rules, cutting costs by 18%, and wrote Ansible playbooks for standard server builds (users, packages, monitoring agents, OS hardening), bringing new server setup down from a full day to under 2 hours.',
+        'I containerized legacy Java applications with Docker and set up Jenkins jobs with Maven and Nexus, giving the team its first working CI pipelines. I also built CloudWatch alarms with SNS notifications for disk, CPU and application health checks, reducing incident response time by 30%, and handled Linux patching, backups and disaster-recovery validation.',
       ],
-      tools: ['AWS EC2 · VPC · IAM', 'S3 · RDS', 'CloudWatch · SNS', 'Ansible', 'Docker', 'Jenkins', 'Maven', 'Nexus', 'Bash', 'Linux'],
+      tools: ['AWS EC2 · VPC · IAM', 'S3 · Glacier · RDS', 'CloudWatch · SNS', 'Ansible', 'Docker', 'Jenkins', 'Maven', 'Nexus', 'Bash', 'Linux'],
     },
     {
       company: 'JPMorgan Chase', role: 'DevOps Engineer', years: 'Mar 2023 – Jul 2024', short: '2023 – 2024',
       project: 'Payments Platform CI/CD Standardization',
       description: [
-        'Standardized build and release for card-payments and treasury microservices on Azure DevOps, AKS and OpenShift. I wrote the shared multi-stage Azure DevOps YAML templates adopted by 40+ Java and .NET services and led the move off legacy Jenkins for 5 application teams, so every team got the same build, scan and deploy stages and deployment failures fell 25%.',
-        'I made SonarQube, Checkmarx and BlackDuck scans a required stage in every pipeline, and the results became the evidence used in SOX and PCI-DSS audits. With InfoSec, I remediated 200+ infrastructure and container vulnerabilities. I also provisioned AKS, networking, Key Vault and Azure Monitor with Terraform, cutting environment setup time by 40%, set GitFlow branching and release tagging across 6 teams, and added latency and error-rate alerting in Prometheus, Grafana, Splunk and Application Insights.',
+        'Standardized build and release for card-payments and treasury microservices on Azure DevOps, AKS and OpenShift. I built multi-stage Azure DevOps YAML pipelines from shared templates so 40+ Java and .NET services followed the same build, scan and deploy stages, reducing deployment failures by 25%, and provisioned AKS, VNets, Key Vault and load balancers with Terraform modules, cutting environment setup time by 40%.',
+        'I packaged payments services as Helm charts for AKS and OpenShift, handling rolling updates, readiness and liveness probe tuning, and pod scaling during month-end processing peaks. I added SonarQube, Checkmarx and BlackDuck gates that failed builds on critical vulnerabilities or license issues and pulled pipeline evidence for SOX and PCI-DSS audits, and worked with InfoSec to remediate 200+ vulnerabilities by patching base images, upgrading libraries and rebuilding containers.',
+        'I built Splunk dashboards and Prometheus and Grafana alerts on latency and error rates for faster triage on bridge calls. I also led the move of legacy Jenkins jobs to Azure DevOps with 5 application teams, wrote the Confluence runbooks, and set GitFlow branching and pull request policies across 6 teams.',
       ],
-      tools: ['Azure DevOps', 'AKS', 'OpenShift', 'Terraform', 'Helm', 'SonarQube', 'Checkmarx', 'BlackDuck', 'Splunk', 'Prometheus', 'Grafana', 'Application Insights', 'Java', '.NET', 'PowerShell'],
+      tools: ['Azure DevOps', 'AKS', 'OpenShift', 'Terraform', 'Helm', 'Key Vault', 'SonarQube', 'Checkmarx', 'BlackDuck', 'Splunk', 'Prometheus', 'Grafana', 'Jenkins', 'Java', '.NET'],
     },
     {
-      company: 'NextEra Energy', role: 'DevOps Engineer', years: 'Aug 2024 – Present', short: '2024 – Now', location: 'Juno Beach, FL',
-      project: 'Grid Operations Platform Modernization',
-      description: [
-        'Leading the move of outage-management and meter-data microservices from on-prem RHEL servers, which could not scale during storms, to AWS EKS and Red Hat OpenShift. I designed and proposed the migration, built reusable Terraform modules for VPC, EKS, IAM and RDS (manual provisioning down about 60%), and migrated 25+ microservices with Helm and Tekton with no customer-facing downtime.',
-        'I replaced the 4-hour, after-hours release window with Harness canary and blue-green deployments that roll back automatically, so releases now ship with zero downtime in under an hour. I moved credentials into HashiCorp Vault to close NERC CIP audit findings, added SonarQube, Snyk and Trivy gates that cut failed deployments by 40%, and set up SLO-based alerting with Prometheus, Grafana and PagerDuty that helped reduce P1/P2 incidents by about 35%.',
-        'Day to day, I run the Kubernetes and OpenShift clusters, automate RHEL operations with Ansible, Python and Bash (about 15 engineering hours saved a week), mentor 3 junior engineers, and take production changes through ServiceNow CAB.',
+      company: 'NextEra Energy', years: 'Aug 2024 – Present', short: '2024 – Now', location: 'Juno Beach, FL',
+      positions: [
+        {
+          role: 'Site Reliability Analyst',
+          project: 'Grid Operations Reliability',
+          description: [
+            'Keeping outage-management and meter-data services on EKS and OpenShift stable for control-room and field-crew users, especially during storm season. I’m part of the weekly on-call rotation for P1/P2 incidents through PagerDuty and ServiceNow: I triage the alert, pull logs from Splunk and CloudWatch, bring app teams onto the bridge call, then write the RCA and follow-up Jira tickets.',
+            'I worked with app teams to define SLIs and SLOs (availability, p95 latency, error rate) for the outage-map and meter-read APIs and rebuilt the Prometheus and Grafana alerts around them, so on-call stopped getting paged for noisy CPU alerts and production availability improved by 35%. Before hurricane season, I tuned HPA settings and resource requests and limits for services that spike during storms and load-tested them with JMeter, so pods scale out before latency degrades.',
+            'Day to day, I troubleshoot Kubernetes and OpenShift issues such as CrashLoopBackOff and OOMKilled pods, ImagePullBackOff from expired registry credentials, PVC mount failures and NotReady nodes, and turn each fix into a Confluence runbook. I wrote Ansible roles and Python/Bash scripts for monthly RHEL patching, log rotation, disk cleanup and health checks that used to be done by hand in weekend windows, saving roughly 15 engineering hours a week. I also review changes and rollback plans in the weekly ServiceNow CAB and mentor 3 junior engineers on on-call and Kubernetes.',
+          ],
+          tools: ['EKS', 'OpenShift', 'Kubernetes', 'PagerDuty', 'ServiceNow', 'Splunk', 'CloudWatch', 'Prometheus', 'Grafana', 'JMeter', 'Ansible', 'Python', 'Bash', 'RHEL', 'Jira', 'Confluence'],
+        },
+        {
+          role: 'Cloud Infrastructure Analyst',
+          project: 'Grid Operations Platform Modernization',
+          description: [
+            'Moved outage-management and meter-data microservices from on-prem RHEL servers to AWS EKS and Red Hat OpenShift. I built modular Terraform for VPC, subnets, EKS, IAM and RDS with remote state in S3 and DynamoDB locking, with every change going through a pull request and a reviewed terraform plan, cutting manual provisioning effort by 60%. I migrated 25+ microservices in waves, running old and new side by side and shifting traffic with Route 53 weighted records, with no customer-facing downtime.',
+            'I ran EKS upgrades across dev, QA and prod (deprecated API checks, add-on upgrades, node groups rolled one at a time) and fixed pods stuck in Pending from subnet IP exhaustion with VPC CNI prefix delegation. I moved application secrets out of config files into HashiCorp Vault with dynamic database credentials, tightened IAM roles (IRSA) and Security Groups, and automated SSL/TLS renewal, closing NERC CIP audit findings.',
+            'I set up RDS automated snapshots, multi-AZ failover and S3 versioning, and ran twice-yearly DR tests that restored a production database copy and measured recovery time against target. I also built Jenkins and GitHub Actions pipelines with SonarQube, Snyk and Trivy gates, plus Harness canary deployments with automatic rollback, reducing failed deployments by 40% and release windows from about 4 hours to under 1.',
+          ],
+          tools: ['AWS EKS · VPC · IAM · RDS', 'S3 · DynamoDB', 'Route 53', 'OpenShift', 'Terraform', 'HashiCorp Vault', 'Jenkins', 'GitHub Actions', 'Harness', 'SonarQube', 'Snyk', 'Trivy'],
+        },
       ],
-      tools: ['AWS EKS · VPC · IAM · RDS', 'S3 · DynamoDB', 'OpenShift', 'Terraform', 'Harness', 'Jenkins', 'GitHub Actions', 'Tekton', 'Helm', 'Vault', 'SonarQube', 'Snyk', 'Trivy', 'Prometheus', 'Grafana', 'PagerDuty', 'Ansible', 'Python', 'Bash'],
     },
   ],
 

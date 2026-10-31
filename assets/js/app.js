@@ -94,18 +94,27 @@
     return out.join(' ');
   }
   function initials(name) { return name.split(/\s+/).map(function (w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase(); }
+  function toolsHTML(tools) {
+    return tools ? '<div class="job-tools"><h4>Environment</h4><div class="chips">' + tools.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div></div>' : '';
+  }
+  function descHTML(d) { return '<div class="job-desc">' + d.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'; }
   function jobHTML(s, i) {
-    var current = /present/i.test(s.years), dur = duration(s.years);
+    var current = /present/i.test(s.years), dur = duration(s.years), multi = s.positions && s.positions.length;
+    var when = esc(s.years) + (dur ? ' · ' + esc(dur) : '') + (s.location ? ' · ' + esc(s.location) : '');
+    var head = '<header class="job-head"><h3 id="job-h-' + i + '">' + esc(s.company) + '</h3>' +
+      (multi
+        ? '<p class="job-when">' + s.positions.length + ' roles · ' + when + '</p></header>'
+        : '<p class="job-role">' + esc(s.role) + (current ? ' <span class="now">Current</span>' : '') + '</p>' +
+          '<p class="job-when">' + when + '</p><p class="proj-name">' + esc(s.project) + '</p></header>');
+    var body = multi
+      ? '<div class="positions">' + s.positions.map(function (r, n) {
+          return '<section class="pos" aria-label="' + esc(r.role) + '"><p class="job-role">' + esc(r.role) + (current && n === 0 ? ' <span class="now">Current</span>' : '') + '</p>' +
+            '<p class="proj-name">' + esc(r.project) + '</p>' + descHTML(r.description) + toolsHTML(r.tools) + '</section>';
+        }).join('') + '</div>'
+      : descHTML(s.description) + toolsHTML(s.tools);
     return '<article class="job' + (current ? ' current' : '') + '" id="job-' + i + '" aria-labelledby="job-h-' + i + '">' +
       '<div class="job-mark" aria-hidden="true">' + esc(initials(s.company)) + '</div>' +
-      '<div class="job-main"><header class="job-head">' +
-        '<h3 id="job-h-' + i + '">' + esc(s.company) + '</h3>' +
-        '<p class="job-role">' + esc(s.role) + (current ? ' <span class="now">Current</span>' : '') + '</p>' +
-        '<p class="job-when">' + esc(s.years) + (dur ? ' · ' + esc(dur) : '') + (s.location ? ' · ' + esc(s.location) : '') + '</p>' +
-        '<p class="proj-name">' + esc(s.project) + '</p></header>' +
-      '<div class="job-desc">' + s.description.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
-      (s.tools ? '<div class="job-tools"><h4>Environment</h4><div class="chips">' + s.tools.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div></div>' : '') +
-      '</div></article>';
+      '<div class="job-main">' + head + body + '</div></article>';
   }
 
   function renderRows() {
