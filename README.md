@@ -34,7 +34,7 @@ My portfolio, with a cinematic red-on-black interface. (My original portfolio is
 | **About** | Who I am in four short paragraphs, an "At a glance" fact card (role, experience, industries, cloud, compliance, certification, education, location) and core skills |
 | **Current Focus** | Current role and work in progress |
 | **Key Results** | Measured outcomes: 60% less provisioning, 40% fewer failed deployments, release windows from 4h to under 1h, and more |
-| **Experience** | Every role on one LinkedIn-style timeline, newest first: NextEra Energy, JPMorgan Chase, Verizon. Each shows role, dates with calculated duration, location, project, a short write-up in plain paragraphs, and tools |
+| **Experience** | Every role on one LinkedIn-style timeline, newest first: NextEra Energy, Duke Energy, Medtronic, Mindtree LTI. Each shows role, dates with calculated duration, location, project, a short write-up in plain paragraphs, and tools |
 | **Projects** | Project cards with generated cover art. Select one for the details, features, tech stack and architecture flow |
 | **Skills** | CI/CD, containers, IaC, cloud, DevSecOps, observability, scripting and AI |
 | **Certifications & Education** | AWS Certified Developer – Associate and MS in Computer Science |
@@ -185,6 +185,10 @@ node --check assets/js/app.js
 ```
 
 ---
+
+## Visitor analytics
+
+The site uses [GoatCounter](https://www.goatcounter.com) for privacy-friendly visitor counts: no cookies, no personal data and no consent banner. One script tag near the end of `index.html` counts page views, and `data-goatcounter-click` attributes count clicks on the Resume, LinkedIn and GitHub links. Counts are visible at https://saiteja.goatcounter.com. Visits from `localhost` are not counted.
 
 ## Roadmap
 

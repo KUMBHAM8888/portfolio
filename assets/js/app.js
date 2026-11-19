@@ -48,7 +48,7 @@
         }).join('') + '</div>';
     },
     experience: function () {
-      return rowHead('experience', 'Experience', 'Five years across telecom, financial services and energy', false) +
+      return rowHead('experience', 'Experience', 'Five years across energy, healthcare and telecom', false) +
         '<div class="timeline">' + S.experience.map(function (s, i) { return jobHTML(s, i); }).reverse().join('') + '</div>';
     },
     projects: function () {
